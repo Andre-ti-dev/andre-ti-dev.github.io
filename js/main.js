@@ -1,3 +1,4 @@
+document.querySelector('.loader').style.display = 'block';
 let processes = document.querySelector('#processes');
 let browsers = [];
 

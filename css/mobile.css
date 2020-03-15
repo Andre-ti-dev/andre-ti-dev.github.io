@@ -4,7 +4,7 @@
     height: 250px;
   }
 
-  div#running-process svg {
+  div#running-process i {
     font-size: 30px;
   }
 
@@ -14,7 +14,7 @@
     margin-bottom: 34px;
   }
 
-  div.process svg {
+  div.process i {
     font-size: 26px;
   }
 
