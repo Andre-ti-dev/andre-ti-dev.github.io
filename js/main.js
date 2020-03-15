@@ -67,6 +67,7 @@ async function fifo() {
       await runProcess(browsers[0]);
       let browser = browsers.shift();
       removeProcess(browser.id);
+      await contextChange();
     }
     stopAnimations();
   }
