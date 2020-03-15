@@ -110,7 +110,9 @@ function switchProcessIcon(icon) {
   let iconElement = document.createElement('i');
   iconElement.classList.add('fab', icon);
 
-  runningProcess.removeChild(runningProcess.firstChild);
+  if (runningProcess.firstChild)
+    runningProcess.removeChild(runningProcess.firstChild);
+
   runningProcess.appendChild(iconElement);
 
   return icon;
