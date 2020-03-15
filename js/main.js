@@ -88,15 +88,12 @@ function runProcess(browser) {
 }
 
 function contextChange() {
-  let runningProcess = document.querySelector('#running-process');
+  let iconProcess = document.querySelector('#icon-process');
   let iconElement = document.createElement('i');
-  iconElement.classList.add(
-    'fas',
-    Math.floor(Math.random() * 2) == 1 ? 'fa-mouse' : 'fa-keyboard'
-  );
+  iconElement.classList.add('fas', 'fa-cog');
 
-  runningProcess.removeChild(runningProcess.firstChild);
-  runningProcess.appendChild(iconElement);
+  iconProcess.removeChild(iconProcess.firstChild);
+  iconProcess.appendChild(iconElement);
   return new Promise(resolve => {
     setTimeout(() => {
       resolve();
@@ -105,13 +102,12 @@ function contextChange() {
 }
 
 function switchProcessIcon(icon) {
-  let runningProcess = document.querySelector('#running-process');
+  let iconProcess = document.querySelector('#icon-process');
 
   let iconElement = document.createElement('i');
   iconElement.classList.add('fab', icon);
-  if (runningProcess.firstChild)
-    runningProcess.removeChild(runningProcess.firstChild);
-  runningProcess.appendChild(iconElement);
+  if (iconProcess.firstChild) iconProcess.removeChild(iconProcess.firstChild);
+  iconProcess.appendChild(iconElement);
 
   return icon;
 }
@@ -132,7 +128,8 @@ function stopAnimations() {
   loader.style.animation = '';
   loader.style.opacity = 0;
   document.querySelector('#cpu-wrapper').style.animation = '';
-  document.querySelector('#running-process').innerHTML = '';
+  let iconProcess = document.querySelector('#icon-process');
+  if (iconProcess.firstChild) iconProcess.removeChild(iconProcess.firstChild);
 }
 
 function removeProcess(id) {
