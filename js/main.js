@@ -1,4 +1,8 @@
-document.querySelector('.loader').style.display = 'block';
+setTimeout(
+  () => (document.querySelector('.loader').style.display = 'block'),
+  1000
+);
+
 let processes = document.querySelector('#processes');
 let browsers = [];
 
