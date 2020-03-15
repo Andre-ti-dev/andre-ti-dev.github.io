@@ -98,10 +98,7 @@ function contextChange() {
 function switchContextChangeIcon() {
   let runningProcess = document.querySelector('#running-process');
   let iconElement = document.createElement('i');
-  iconElement.classList.add(
-    'fas',
-    Math.floor(Math.random() * 2) == 1 ? 'fa-mouse' : 'fa-keyboard'
-  );
+  iconElement.classList.add('fas', 'fa-mouse');
   runningProcess.innerHTML = '';
   runningProcess.appendChild(iconElement);
 }
