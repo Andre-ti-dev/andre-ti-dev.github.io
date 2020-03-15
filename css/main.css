@@ -152,7 +152,7 @@ body {
     inset 0px 0px 6px 1px rgba(0, 0, 0, 0.24);
 }
 
-div#running-process i {
+div#running-process svg {
   font-size: 40px;
 }
 
@@ -181,7 +181,7 @@ div.process {
   transition: all 2s ease-in-out;
 }
 
-div.process i {
+div.process svg {
   font-size: 40px;
 }
 
@@ -207,27 +207,27 @@ div#running-process .fa-keyboard {
   color: #e91e63;
   animation: context 2s ease-in-out infinite;
 }
-div#running-process i.fa-chrome {
+div#running-process svg.fa-chrome {
   animation: chrome 4s ease-in-out infinite, animate 0.5s linear infinite;
 }
 
-div#running-process i.fa-firefox-browser {
+div#running-process svg.fa-firefox-browser {
   animation: firefox 4s ease-in-out infinite, animate 0.5s linear infinite;
 }
 
-div#running-process i.fa-opera {
+div#running-process svg.fa-opera {
   animation: opera 4s ease-in-out infinite, animate 0.5s linear infinite;
 }
 
-div#running-process i.fa-safari {
+div#running-process svg.fa-safari {
   animation: safari 4s ease-in-out infinite, animate 0.5s linear infinite;
 }
 
-div#running-process i.fa-edge {
+div#running-process svg.fa-edge {
   animation: edge 4s ease-in-out infinite, animate 0.5s linear infinite;
 }
 
-div#running-process i.fa-internet-explorer {
+div#running-process svg.fa-internet-explorer {
   animation: explorer 4s ease-in-out infinite, animate 0.5s linear infinite;
 }
 

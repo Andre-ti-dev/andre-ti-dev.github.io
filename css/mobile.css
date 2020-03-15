@@ -4,13 +4,17 @@
     height: 250px;
   }
 
+  div#running-process svg {
+    font-size: 30px;
+  }
+
   div.process {
     width: 54px;
     height: 54px;
     margin-bottom: 34px;
   }
 
-  div.process i {
+  div.process svg {
     font-size: 26px;
   }
 
