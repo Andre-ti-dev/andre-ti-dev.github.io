@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SO 1 - ESCALONAMENTO DE PROCESSOS</title>
+    <script src="https://kit.fontawesome.com/7bfd1ed116.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+    <div id="app">
+        <div id="processor-container">
+            <div id="processor">
+                <div class="loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div id="cpu-wrapper">
+                    <div id="cpu"></div>
+                    <div id="chip">
+                        <div id="running-process">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="processes"></div>
+        <div id="controls">
+            <button class="add" data-icon="fa-chrome" data-ms="4" onclick="addProcess(this)"><i
+                    class="fab fa-chrome"></i>
+                <i class="fas fa-plus"></i></button>
+            <button class="add" data-icon="fa-firefox-browser" data-ms="3" onclick="addProcess(this)"><i
+                    class="fab fa-firefox-browser"></i> <i class="fas fa-plus"></i></button>
+            <button class="add" data-icon="fa-opera" data-ms="5" onclick="addProcess(this)"><i class="fab fa-opera"></i>
+                <i class="fas fa-plus"></i></button>
+            <button class="add" data-icon="fa-safari" data-ms="2" onclick="addProcess(this)"><i
+                    class="fab fa-safari"></i> <i class="fas fa-plus"></i></button>
+            <button class="add" data-icon="fa-edge" data-ms="4" onclick="addProcess(this)"><i class="fab fa-edge"></i>
+                <i class="fas fa-plus"></i></button>
+            <button class="add" data-icon="fa-internet-explorer" data-ms="6" onclick="addProcess(this)"><i
+                    class="fab fa-internet-explorer"></i> <i class="fas fa-plus"></i></button>
+        </div>
+        <div id="methods">
+            <button class="btn-method" onclick="fifo()">FIFO</button>
+        </div>
+    </div>
+</body>
+
+</html>
