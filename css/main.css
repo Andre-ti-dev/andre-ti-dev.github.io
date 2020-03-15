@@ -157,6 +157,20 @@ div#running-process i {
   font-size: 40px;
 }
 
+div#running-process span#context-change {
+  transform: rotate(-90deg);
+  font-family: consolas;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  font-size: 15px;
+  background: #000;
+  color: #fff;
+}
+
 /* Processes */
 
 #processes {
