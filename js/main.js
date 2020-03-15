@@ -89,14 +89,14 @@ function runProcess(browser) {
 
 function contextChange() {
   let runningProcess = document.querySelector('#running-process');
-  let spanElement = document.createElement('span');
-  spanElement.setAttribute('id', 'context-change');
-  let text = document.createTextNode('I/O');
-  spanElement.appendChild(text);
+  let iconElement = document.createElement('i');
+  iconElement.classList.add(
+    'fas',
+    Math.floor(Math.random() * 2) == 1 ? 'fa-mouse' : 'fa-keyboard'
+  );
 
   runningProcess.removeChild(runningProcess.firstChild);
-  runningProcess.appendChild(spanElement);
-
+  runningProcess.appendChild(iconElement);
   return new Promise(resolve => {
     setTimeout(() => {
       resolve();
@@ -109,10 +109,8 @@ function switchProcessIcon(icon) {
 
   let iconElement = document.createElement('i');
   iconElement.classList.add('fab', icon);
-
   if (runningProcess.firstChild)
     runningProcess.removeChild(runningProcess.firstChild);
-
   runningProcess.appendChild(iconElement);
 
   return icon;
