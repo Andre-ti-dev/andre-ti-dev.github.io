@@ -1,8 +1,3 @@
-setTimeout(
-  () => (document.querySelector('.loader').style.display = 'block'),
-  1000
-);
-
 let processes = document.querySelector('#processes');
 let browsers = [];
 
@@ -98,7 +93,10 @@ function contextChange() {
 function switchContextChangeIcon() {
   let runningProcess = document.querySelector('#running-process');
   let iconElement = document.createElement('i');
-  iconElement.classList.add('fas', 'fa-mouse');
+  iconElement.classList.add(
+    'fas',
+    Math.floor(Math.random() * 2) == 1 ? 'fa-mouse' : 'fa-keyboard'
+  );
   runningProcess.innerHTML = '';
   runningProcess.appendChild(iconElement);
 }
