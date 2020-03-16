@@ -188,6 +188,35 @@ function runProcessPreemptive(browser) {
   });
 }
 
+async function roundRobin() {
+  disabledMethodButtons();
+  let quantumInput = document.querySelector('#quantum');
+  if (browsers.length > 0) {
+    startAnimations();
+    switchProcessIcon(browsers[0].icon);
+    while (browsers.length > 0) {
+      let quantum = quantumInput.value;
+      let lastBrowser = {};
+      while (quantum > 0) {
+        if (browsers[0].ms == 0) {
+          removeProcess(browsers[0].id);
+          browsers.shift();
+          if (browsers.length == 0) break;
+        }
+        if (lastBrowser.id != browsers[0].id) {
+          switchProcessIcon(browsers[0].icon);
+          lastBrowser = Object.assign({}, browsers[0]);
+        }
+        await runProcessPreemptive(browsers[0]);
+        quantum--;
+      }
+      await contextChange();
+    }
+    stopAnimations();
+  }
+  enableMethodButtons();
+}
+
 function contextChange() {
   let iconElement = document.createElement('i');
   iconElement.classList.add('fas', 'fa-cog');
