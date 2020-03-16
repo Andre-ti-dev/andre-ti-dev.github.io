@@ -35,6 +35,8 @@ function animationChangePosition(element, beforeElement) {
   });
 }
 
+/* Algoritmos */
+
 async function fifo() {
   disabledMethodButtons();
   if (browsers.length > 0) {
@@ -127,6 +129,39 @@ async function sjfPreemptive() {
   enableMethodButtons();
 }
 
+async function priority() {
+  disabledMethodButtons();
+
+  if (browsers.length > 0) {
+    startAnimations();
+    let lastBrowser;
+
+    while (browsers.length > 0) {
+      let browser = browsers.reduce((min, next) =>
+        next.priority > min.priority ? next : min
+      );
+
+      if (!lastBrowser) switchProcessIcon(browser.icon);
+      if (lastBrowser && lastBrowser.id != browser.id) {
+        await contextChange();
+        switchProcessIcon(browser.icon);
+      }
+
+      await runProcessPreemptive(browser);
+
+      if (browser.ms == 0) {
+        browsers = browsers.filter(b => b.id != browser.id);
+        removeProcess(browser.id);
+      }
+
+      lastBrowser = Object.assign({}, browser);
+    }
+
+    stopAnimations();
+  }
+  enableMethodButtons();
+}
+
 function runProcessNotPreemptive(browser) {
   switchProcessIcon(browser.icon);
   return new Promise(resolve => {
@@ -174,6 +209,7 @@ function getProcess(id) {
 function addProcess(event) {
   let icon = event.dataset.icon;
   let ms = event.dataset.ms;
+  let priority = event.dataset.priority;
   let id = browsers.length > 0 ? browsers[browsers.length - 1].id : 0;
   id++;
 
@@ -189,11 +225,23 @@ function addProcess(event) {
   let text = document.createTextNode(ms + 'ms');
   msElement.appendChild(text);
 
+  let priorityElement = document.createElement('span');
+  priorityElement.classList.add('priority-icon');
+
+  let count = 0;
+  while (priority > count) {
+    let starElement = document.createElement('i');
+    starElement.classList.add('fas', 'fa-star');
+    priorityElement.appendChild(starElement);
+    count++;
+  }
+
   processElement.appendChild(iconElement);
   processElement.appendChild(msElement);
+  processElement.appendChild(priorityElement);
   processes.appendChild(processElement);
 
-  browsers.push({ id, ms, icon });
+  browsers.push({ id, ms, icon, priority });
 }
 
 function switchProcessIcon(icon) {

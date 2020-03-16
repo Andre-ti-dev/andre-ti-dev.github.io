@@ -11,11 +11,15 @@
   div.process {
     width: 54px;
     height: 54px;
-    margin-bottom: 34px;
+    margin-bottom: 55px;
   }
 
-  div.process i {
+  div.process div.process-time i {
     font-size: 26px;
+  }
+
+  div.process span.priority-icon {
+    bottom: -53px;
   }
 
   span.process-time {
