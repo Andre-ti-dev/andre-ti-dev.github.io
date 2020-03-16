@@ -314,6 +314,17 @@ function disabledMethodButtons() {
     btn.setAttribute('disabled', true);
     btn.style.cursor = 'not-allowed';
   });
+  let rr = document.querySelector('#round-robin');
+  rr.classList.add('disabled');
+  rr.style.cursor = 'not-allowed';
+
+  let rrInput = rr.querySelector('input');
+  rrInput.setAttribute('disabled', true);
+  rrInput.style.cursor = 'not-allowed';
+
+  rrButton = rr.querySelector('button');
+  rrButton.setAttribute('disabled', true);
+  rrButton.style.cursor = 'not-allowed';
 }
 
 function enableMethodButtons() {
@@ -321,4 +332,16 @@ function enableMethodButtons() {
     btn.removeAttribute('disabled');
     btn.style.cursor = 'pointer';
   });
+
+  let rr = document.querySelector('#round-robin');
+  rr.classList.remove('disabled');
+  rr.style.cursor = 'default';
+
+  let rrInput = rr.querySelector('input');
+  rrInput.removeAttribute('disabled');
+  rrInput.style.cursor = 'default';
+
+  rrButton = rr.querySelector('button');
+  rrButton.removeAttribute('disabled');
+  rrButton.style.cursor = 'pointer';
 }
