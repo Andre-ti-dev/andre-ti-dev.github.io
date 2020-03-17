@@ -1,0 +1,153 @@
+@keyframes cpu {
+    0% {
+      transform: perspective(0) rotateX(60deg) translateY(0px);
+    }
+    25% {
+      transform: perspective(0) rotateX(60deg) translateY(100px);
+    }
+    50% {
+      transform: perspective(0) rotateX(60deg) translateY(0px);
+    }
+    75% {
+      transform: perspective(0) rotateX(60deg) translateY(-100px);
+    }
+    100% {
+      transform: perspective(0) rotateX(60deg) translateY(0px);
+    }
+  }
+  
+  @keyframes animate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes context {
+    0% {
+      color: #2196f3;
+      text-shadow: 0 0 45px #2196f3;
+    }
+    50% {
+      color: #d9dde0;
+      text-shadow: 0 0 45px #d9dde0;
+    }
+    100% {
+      color: #2196f3;
+      text-shadow: 0 0 45px #2196f3;
+    }
+  }
+  
+  /* BROWSER COLORS */
+  
+  @keyframes chrome {
+    0% {
+      color: #1ca361;
+      text-shadow: 0 0 45px #1ca361;
+    }
+    25% {
+      color: #dd4b3e;
+      text-shadow: 0 0 45px #dd4b3e;
+    }
+    50% {
+      color: #ffce45;
+      text-shadow: 0 0 45px #ffce45;
+    }
+    75% {
+      color: #4c8cf6;
+      text-shadow: 0 0 45px #4c8cf6;
+    }
+    100% {
+      color: #1ca361;
+      text-shadow: 0 0 45px #1ca361;
+    }
+  }
+  
+  @keyframes firefox {
+    0% {
+      color: #f82433;
+      text-shadow: 0 0 45px #f82433;
+    }
+    33.333% {
+      color: #ff780a;
+      text-shadow: 0 0 45px #ff780a;
+    }
+    66.666% {
+      color: #114ecd;
+      text-shadow: 0 0 45px #114ecd;
+    }
+    100% {
+      color: #f82433;
+      text-shadow: 0 0 45px #f82433;
+    }
+  }
+  
+  @keyframes opera {
+    0% {
+      color: #ddd;
+      text-shadow: 0 0 45px #ddd;
+    }
+    50% {
+      color: #e50505;
+      text-shadow: 0 0 45px #e50505;
+    }
+    100% {
+      color: #ddd;
+      text-shadow: 0 0 45px #ddd;
+    }
+  }
+  
+  @keyframes safari {
+    0% {
+      color: #f0f0f0;
+      text-shadow: 0 0 45px #f0f0f0;
+    }
+    33.333% {
+      color: #fe514f;
+      text-shadow: 0 0 45px #fe514f;
+    }
+    66.666% {
+      color: #096cda;
+      text-shadow: 0 0 45px #096cda;
+    }
+    100% {
+      color: #f0f0f0;
+      text-shadow: 0 0 45px #f0f0f0;
+    }
+  }
+  
+  @keyframes edge {
+    0% {
+      color: #104d90;
+      text-shadow: 0 0 45px #104d90;
+    }
+    33.333% {
+      color: #0e89d7;
+      text-shadow: 0 0 45px #0e89d7;
+    }
+    66.666% {
+      color: #4cd969;
+      text-shadow: 0 0 45px #4cd969;
+    }
+    100% {
+      color: #104d90;
+      text-shadow: 0 0 45px #104d90;
+    }
+  }
+  
+  @keyframes explorer {
+    0% {
+      color: #ddd;
+      text-shadow: 0 0 45px #ddd;
+    }
+    50% {
+      color: #0e89d7;
+      text-shadow: 0 0 45px #0e89d7;
+    }
+    100% {
+      color: #ddd;
+      text-shadow: 0 0 45px #ddd;
+    }
+  }

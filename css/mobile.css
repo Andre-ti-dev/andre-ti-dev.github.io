@@ -1,0 +1,43 @@
+@media screen and (max-width: 360px) {
+    #processor {
+      width: 250px;
+      height: 250px;
+    }
+  
+    div#running-process i {
+      font-size: 30px;
+    }
+  
+    div.process {
+      width: 54px;
+      height: 54px;
+      margin-bottom: 55px;
+    }
+  
+    div.process div.process-time i {
+      font-size: 26px;
+    }
+  
+    div.process span.priority-icon {
+      bottom: -53px;
+    }
+  
+    span.process-time {
+      bottom: -36px;
+      font-size: 15px;
+      padding: 2px 4px;
+      width: 60px;
+    }
+  
+    div#controls,
+    div#methods {
+      margin-top: 14px;
+    }
+  
+    div#controls .add {
+      width: 60px;
+      height: 30px;
+      padding: 0px 4px;
+      font-size: 16px;
+    }
+  }

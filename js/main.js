@@ -1,1 +1,367 @@
-setTimeout(() => document.querySelector(".loader").style.display = "block", 1e3); let processes = document.querySelector("#processes"), browsers = []; async function sort() { let e = [...browsers].sort((e, t) => e.ms > t.ms ? 1 : -1), t = 0; for (; browsers.length > t;)await animationChangePosition(getProcess(e[t].id, getProcess(browsers[t].id))), t++; return browsers = e, [...browsers] } function animationChangePosition(e, t) { return e.style.opacity = 0, new Promise(s => { setTimeout(function () { processes.insertBefore(e, t), setTimeout(function () { e.style.opacity = 1, s() }, 500) }, 500) }) } async function fifo() { if (disabledMethodButtons(), browsers.length > 0) { for (startAnimations(); browsers.length > 0;) { await runProcessNotPreemptive(browsers[0]), removeProcess(browsers.shift().id), await contextChange() } stopAnimations() } enableMethodButtons() } async function sjfNotPreemptive() { if (disabledMethodButtons(), browsers.length > 0) { for (startAnimations(); browsers.length > 0;) { let e = browsers.reduce((e, t) => t.ms < e.ms ? t : e); await runProcessNotPreemptive(e), browsers = browsers.filter(t => t.id != e.id), removeProcess(e.id), await contextChange() } stopAnimations() } enableMethodButtons() } async function sjfNotPreemptive() { if (disabledMethodButtons(), browsers.length > 0) { for (startAnimations(); browsers.length > 0;) { let e = browsers.reduce((e, t) => t.ms < e.ms ? t : e); await runProcessNotPreemptive(e), browsers = browsers.filter(t => t.id != e.id), removeProcess(e.id), await contextChange() } stopAnimations() } enableMethodButtons() } async function sjfPreemptive() { if (disabledMethodButtons(), browsers.length > 0) { let e; for (startAnimations(); browsers.length > 0;) { let t = browsers.reduce((e, t) => t.ms < e.ms ? t : e); e || switchProcessIcon(t.icon), e && e.id != t.id && (await contextChange(), switchProcessIcon(t.icon)), await runProcessPreemptive(t), 0 == t.ms && (browsers = browsers.filter(e => e.id != t.id), removeProcess(t.id)), e = Object.assign({}, t) } stopAnimations() } enableMethodButtons() } async function priority() { if (disabledMethodButtons(), browsers.length > 0) { let e; for (startAnimations(); browsers.length > 0;) { let t = browsers.reduce((e, t) => t.priority > e.priority ? t : e); e || switchProcessIcon(t.icon), e && e.id != t.id && (await contextChange(), switchProcessIcon(t.icon)), await runProcessPreemptive(t), 0 == t.ms && (browsers = browsers.filter(e => e.id != t.id), removeProcess(t.id)), e = Object.assign({}, t) } stopAnimations() } enableMethodButtons() } function runProcessNotPreemptive(e) { return switchProcessIcon(e.icon), new Promise(t => { let s = setInterval(() => { e.ms--, getProcess(e.id).querySelector(".process-time").textContent = e.ms + "ms", 0 == e.ms && (clearInterval(s), t()) }, 1e3) }) } function runProcessPreemptive(e) { return new Promise(t => { setTimeout(() => { e.ms--, getProcess(e.id).querySelector(".process-time").textContent = e.ms + "ms", t() }, 1e3) }) } async function roundRobin() { disabledMethodButtons(); let e = document.querySelector("#quantum"); if (browsers.length > 0) { for (startAnimations(), switchProcessIcon(browsers[0].icon); browsers.length > 0;) { let t = e.value, s = {}; for (; t > 0 && (0 != browsers[0].ms || (removeProcess(browsers[0].id), browsers.shift(), 0 != browsers.length));)s.id != browsers[0].id && (switchProcessIcon(browsers[0].icon), s = Object.assign({}, browsers[0])), await runProcessPreemptive(browsers[0]), t--; browsers.length > 0 && await contextChange() } stopAnimations() } enableMethodButtons() } function contextChange() { let e = document.createElement("i"); return e.classList.add("fas", "fa-cog"), removeProcessIcon().appendChild(e), new Promise(e => { setTimeout(() => { e() }, 1e3) }) } function getProcess(e) { return document.querySelector("[data-id='" + e + "']") } function addProcess(e) { let t = e.dataset.icon, s = e.dataset.ms, o = e.dataset.priority, r = browsers.length > 0 ? browsers[browsers.length - 1].id : 0; r++; let n = document.createElement("div"); n.classList.add("process"), n.setAttribute("data-id", r); let i = document.createElement("i"); i.classList.add("fab", t); let c = document.createElement("span"); c.classList.add("process-time"); let a = document.createTextNode(s + "ms"); c.appendChild(a); let l = document.createElement("span"); l.classList.add("priority-icon"); let d = 0; for (; o > d;) { let e = document.createElement("i"); e.classList.add("fas", "fa-star"), l.appendChild(e), d++ } n.appendChild(i), n.appendChild(c), n.appendChild(l), processes.appendChild(n), browsers.push({ id: r, ms: s, icon: t, priority: o }) } function switchProcessIcon(e) { let t = document.createElement("i"); return t.classList.add("fab", e), removeProcessIcon().appendChild(t), e } function startAnimations() { let e = document.querySelector(".loader"); e.style.animation = "animate 0.5s linear infinite", e.style.opacity = 1, document.querySelector("#cpu-wrapper").style.animation = "cpu 4s linear infinite" } function stopAnimations() { let e = document.querySelector(".loader"); e.style.animation = "", e.style.opacity = 0, document.querySelector("#cpu-wrapper").style.animation = "", removeProcessIcon() } function removeProcessIcon() { let e = document.querySelector("#icon-process"); return e.firstChild && e.removeChild(e.firstChild), e } function removeProcess(e) { let t = getProcess(e); processes.removeChild(t) } function disabledMethodButtons() { document.querySelectorAll(".btn-method").forEach(e => { e.setAttribute("disabled", !0), e.style.cursor = "not-allowed" }); let e = document.querySelector("#round-robin"); e.classList.add("disabled"), e.style.cursor = "not-allowed"; let t = e.querySelector("input"); t.setAttribute("disabled", !0), t.style.cursor = "not-allowed", rrButton = e.querySelector("button"), rrButton.setAttribute("disabled", !0), rrButton.style.cursor = "not-allowed" } function enableMethodButtons() { document.querySelectorAll(".btn-method").forEach(e => { e.removeAttribute("disabled"), e.style.cursor = "pointer" }); let e = document.querySelector("#round-robin"); e.classList.remove("disabled"), e.style.cursor = "default"; let t = e.querySelector("input"); t.removeAttribute("disabled"), t.style.cursor = "default", rrButton = e.querySelector("button"), rrButton.removeAttribute("disabled"), rrButton.style.cursor = "pointer" }
+setTimeout(
+    () => (document.querySelector('.loader').style.display = 'block'),
+    1000
+);
+
+let processes = document.querySelector('#processes');
+let browsers = [];
+
+async function sort() {
+    let browsersSorted = [...browsers].sort((a, b) => (a.ms > b.ms ? 1 : -1));
+    let browserIndex = 0;
+    while (browsers.length > browserIndex) {
+        await animationChangePosition(
+            getProcess(
+                browsersSorted[browserIndex].id,
+                getProcess(browsers[browserIndex].id)
+            )
+        );
+        browserIndex++;
+    }
+    browsers = browsersSorted;
+    return [...browsers];
+}
+
+function animationChangePosition(element, beforeElement) {
+    element.style.opacity = 0;
+    return new Promise(resolve => {
+        setTimeout(function () {
+            processes.insertBefore(element, beforeElement);
+            setTimeout(function () {
+                element.style.opacity = 1;
+                resolve();
+            }, 500);
+        }, 500);
+    });
+}
+
+/* Algoritmos */
+
+async function fifo() {
+    disabledMethodButtons();
+    if (browsers.length > 0) {
+        startAnimations();
+        while (browsers.length > 0) {
+            await runProcessNotPreemptive(browsers[0]);
+            let browser = browsers.shift();
+            removeProcess(browser.id);
+            await contextChange();
+        }
+        stopAnimations();
+    }
+    enableMethodButtons();
+}
+
+async function sjfNotPreemptive() {
+    disabledMethodButtons();
+
+    if (browsers.length > 0) {
+        startAnimations();
+        while (browsers.length > 0) {
+            let browser = browsers.reduce((min, next) =>
+                next.ms < min.ms ? next : min
+            );
+
+            await runProcessNotPreemptive(browser);
+
+            browsers = browsers.filter(b => b.id != browser.id);
+            removeProcess(browser.id);
+            await contextChange();
+        }
+
+        stopAnimations();
+    }
+    enableMethodButtons();
+}
+
+async function sjfNotPreemptive() {
+    disabledMethodButtons();
+
+    if (browsers.length > 0) {
+        startAnimations();
+        while (browsers.length > 0) {
+            let browser = browsers.reduce((min, next) =>
+                next.ms < min.ms ? next : min
+            );
+
+            await runProcessNotPreemptive(browser);
+
+            browsers = browsers.filter(b => b.id != browser.id);
+            removeProcess(browser.id);
+            await contextChange();
+        }
+
+        stopAnimations();
+    }
+    enableMethodButtons();
+}
+
+async function sjfPreemptive() {
+    disabledMethodButtons();
+
+    if (browsers.length > 0) {
+        startAnimations();
+        let lastBrowser;
+
+        while (browsers.length > 0) {
+            let browser = browsers.reduce((min, next) =>
+                next.ms < min.ms ? next : min
+            );
+
+            if (!lastBrowser) switchProcessIcon(browser.icon);
+            if (lastBrowser && lastBrowser.id != browser.id) {
+                await contextChange();
+                switchProcessIcon(browser.icon);
+            }
+
+            await runProcessPreemptive(browser);
+
+            if (browser.ms == 0) {
+                browsers = browsers.filter(b => b.id != browser.id);
+                removeProcess(browser.id);
+            }
+
+            lastBrowser = Object.assign({}, browser);
+        }
+
+        stopAnimations();
+    }
+    enableMethodButtons();
+}
+
+async function priority() {
+    disabledMethodButtons();
+
+    if (browsers.length > 0) {
+        startAnimations();
+        let lastBrowser;
+        let age = 0;
+        while (browsers.length > 0) {
+            let browser = browsers.reduce((min, next) =>
+                next.priority > min.priority ? next : min
+            );
+
+            if (!lastBrowser) switchProcessIcon(browser.icon);
+            if (lastBrowser && lastBrowser.id != browser.id) {
+                await contextChange();
+                switchProcessIcon(browser.icon);
+            }
+
+            await runProcessPreemptive(browser);
+
+            if (browser.ms == 0) {
+                browsers = browsers.filter(b => b.id != browser.id);
+                removeProcess(browser.id);
+            }
+            age++;
+            if (age == 5) {
+                age = 0;
+                browsers.map(b => {
+                    if (b.id != browser.id && b.priority < 5) {
+                        b.priority++;
+                        let starElement = document.createElement('i');
+                        starElement.classList.add('fas', 'fa-star');
+                        getProcess(b.id).querySelector('.priority-icon').appendChild(starElement);
+                    }
+                });
+            }
+
+            lastBrowser = Object.assign({}, browser);
+        }
+
+        stopAnimations();
+    }
+    enableMethodButtons();
+}
+
+async function roundRobin() {
+    disabledMethodButtons();
+    let quantumInput = document.querySelector('#quantum');
+    if (browsers.length > 0) {
+        startAnimations();
+        switchProcessIcon(browsers[0].icon);
+        while (browsers.length > 0) {
+            let quantum = quantumInput.value;
+            let lastBrowser = {};
+            while (quantum > 0) {
+                if (browsers[0].ms == 0) {
+                    removeProcess(browsers[0].id);
+                    browsers.shift();
+                    if (browsers.length == 0) break;
+                }
+                if (lastBrowser.id != browsers[0].id) {
+                    switchProcessIcon(browsers[0].icon);
+                    lastBrowser = Object.assign({}, browsers[0]);
+                }
+                await runProcessPreemptive(browsers[0]);
+                quantum--;
+            }
+            if (browsers.length > 1) {
+                if (lastBrowser.id == browsers[0].id && browsers[0].ms != 0) {
+                    let aux = browsers.shift();
+                    browsers.push(aux);
+                }
+            }
+            if (browsers.length > 0) await contextChange();
+        }
+        stopAnimations();
+    }
+    enableMethodButtons();
+}
+
+
+function runProcessNotPreemptive(browser) {
+    switchProcessIcon(browser.icon);
+    return new Promise(resolve => {
+        let interval = setInterval(() => {
+            browser.ms--;
+            getProcess(browser.id).querySelector('.process-time').textContent =
+                browser.ms + 'ms';
+            if (browser.ms == 0) {
+                clearInterval(interval);
+                resolve();
+            }
+        }, 1000);
+    });
+}
+
+function runProcessPreemptive(browser) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            browser.ms--;
+            getProcess(browser.id).querySelector('.process-time').textContent =
+                browser.ms + 'ms';
+            resolve();
+        }, 1000);
+    });
+}
+
+
+function contextChange() {
+    let iconElement = document.createElement('i');
+    iconElement.classList.add('fas', 'fa-cog');
+
+    removeProcessIcon().appendChild(iconElement);
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve();
+        }, 1000);
+    });
+}
+
+//
+
+function getProcess(id) {
+    return document.querySelector("[data-id='" + id + "']");
+}
+
+function addProcess(event) {
+    let icon = event.dataset.icon;
+    let ms = event.dataset.ms;
+    let priority = event.dataset.priority;
+    let id = browsers.length > 0 ? browsers[browsers.length - 1].id : 0;
+    id++;
+
+    let processElement = document.createElement('div');
+    processElement.classList.add('process');
+    processElement.setAttribute('data-id', id);
+
+    let iconElement = document.createElement('i');
+    iconElement.classList.add('fab', icon);
+
+    let msElement = document.createElement('span');
+    msElement.classList.add('process-time');
+    let text = document.createTextNode(ms + 'ms');
+    msElement.appendChild(text);
+
+    let priorityElement = document.createElement('span');
+    priorityElement.classList.add('priority-icon');
+
+    let count = 0;
+    while (priority > count) {
+        let starElement = document.createElement('i');
+        starElement.classList.add('fas', 'fa-star');
+        priorityElement.appendChild(starElement);
+        count++;
+    }
+
+    processElement.appendChild(iconElement);
+    processElement.appendChild(msElement);
+    processElement.appendChild(priorityElement);
+    processes.appendChild(processElement);
+
+    browsers.push({ id, ms, icon, priority });
+}
+
+function switchProcessIcon(icon) {
+    let iconElement = document.createElement('i');
+    iconElement.classList.add('fab', icon);
+    removeProcessIcon().appendChild(iconElement);
+
+    return icon;
+}
+
+function startAnimations() {
+    // Init animations
+    let loader = document.querySelector('.loader');
+    loader.style.animation = 'animate 0.5s linear infinite';
+    loader.style.opacity = 1;
+
+    document.querySelector('#cpu-wrapper').style.animation =
+        'cpu 4s linear infinite';
+}
+
+function stopAnimations() {
+    // Init animations
+    let loader = document.querySelector('.loader');
+    loader.style.animation = '';
+    loader.style.opacity = 0;
+    document.querySelector('#cpu-wrapper').style.animation = '';
+    removeProcessIcon();
+}
+function removeProcessIcon() {
+    let iconProcess = document.querySelector('#icon-process');
+    if (iconProcess.firstChild) iconProcess.removeChild(iconProcess.firstChild);
+    return iconProcess;
+}
+function removeProcess(id) {
+    let process = getProcess(id);
+    processes.removeChild(process);
+}
+
+function disabledMethodButtons() {
+    document.querySelectorAll('.btn-method').forEach(btn => {
+        btn.setAttribute('disabled', true);
+        btn.style.cursor = 'not-allowed';
+    });
+    let rr = document.querySelector('#round-robin');
+    rr.classList.add('disabled');
+    rr.style.cursor = 'not-allowed';
+
+    let rrInput = rr.querySelector('input');
+    rrInput.setAttribute('disabled', true);
+    rrInput.style.cursor = 'not-allowed';
+
+    rrButton = rr.querySelector('button');
+    rrButton.setAttribute('disabled', true);
+    rrButton.style.cursor = 'not-allowed';
+}
+
+function enableMethodButtons() {
+    document.querySelectorAll('.btn-method').forEach(btn => {
+        btn.removeAttribute('disabled');
+        btn.style.cursor = 'pointer';
+    });
+
+    let rr = document.querySelector('#round-robin');
+    rr.classList.remove('disabled');
+    rr.style.cursor = 'default';
+
+    let rrInput = rr.querySelector('input');
+    rrInput.removeAttribute('disabled');
+    rrInput.style.cursor = 'default';
+
+    rrButton = rr.querySelector('button');
+    rrButton.removeAttribute('disabled');
+    rrButton.style.cursor = 'pointer';
+}
